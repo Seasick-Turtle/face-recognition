@@ -1,5 +1,6 @@
 import React from 'react';
 
+// destructure imageURL
 const FaceRecognition = ({ imageURL }) => {
   return (
     <div className='center ma'>

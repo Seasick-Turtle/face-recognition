@@ -1,6 +1,7 @@
 import React from 'react';
 import './ImageLinkForm.css'
 
+// destructure event handlers
 const ImageLinkForm = ({ onInputChange, onButtonSubmit }) => {
   return (
     <div>
