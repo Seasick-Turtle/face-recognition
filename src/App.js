@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Particles from 'react-particles-js';
 import Navigation from './components/Navigation/Navigation';
+import SignIn from './components/SignIn/SignIn';
+import Register from './components/Register/Register';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import Logo from './components/Logo/Logo';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
@@ -30,22 +32,29 @@ const particlesOptions = {
 
 };
 
-// set initial state to be empty strings
+// set initial state
 class App extends Component {
   constructor() {
     super();
     this.state = {
       input: '',
       imageURL: '',
-      box:[]
+      box:[],
+      route: 'signin',
+      isSignedIn: false
     }
   }
 
   calculateFaceLocation = (data) => {
+    // retrieves bounding box data for four corner around face
     const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
     const image = document.getElementById('inputimage');
+    // retrieves width of image
     const width = Number(image.width);
+    // retrieves height of image
     const height = Number(image.height);
+    // returns the values of the bounding box data
+    // so that it may be used to create border box around face
     return {
       leftCol: clarifaiFace.left_col * width,
       topRow: clarifaiFace.top_row * height,
@@ -55,7 +64,6 @@ class App extends Component {
   };
 
   displayFaceBox = (box) => {
-    console.log(box);
     this.setState({ box });
   };
 
@@ -76,23 +84,54 @@ class App extends Component {
       .catch(err => console.log(err));
   };
 
+  onRouteChange = (route) => {
+    // conditionally render routes based on
+    // route state/sets route state
+    if (route === 'signout') {
+      this.setState({isSignedIn: false})
+    } else if (route === 'home') {
+      this.setState({isSignedIn: true})
+    }
+
+    this.setState({route});
+  };
+
   render() {
+    // destructuring state
+    const { isSignedIn, imageURL, route, box } = this.state;
+
     return (
       <div className="App">
         <Particles
           className='particles'
           params={particlesOptions}
         />
-        <Navigation />
-        <Logo />
-        <Rank />
-        <ImageLinkForm
-          onInputChange={this.onInputChange}
-          onButtonSubmit={this.onButtonSubmit}
-        />
-        <FaceRecognition
-          box={this.state.box}
-          imageURL={this.state.imageURL}/>}
+        <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange}/>
+        {/*
+          used a ternary expression in order to
+          conditionally render route based on the current state
+         */}
+        {route === 'home'
+          ? <div>
+            <Logo />
+            <Rank />
+            <ImageLinkForm
+              onInputChange={this.onInputChange}
+              onButtonSubmit={this.onButtonSubmit}
+            />
+            <FaceRecognition
+              box={box}
+              imageURL={imageURL}/>}
+          </div>
+          : (
+            // using js expression to pass another ternary operator
+            // to conditionally render signin/register components
+            route === 'signin'
+              ? <SignIn onRouteChange={this.onRouteChange}/>
+              : <Register onRouteChange={this.onRouteChange}/>
+
+            )
+        }
       </div>
     );
   }
