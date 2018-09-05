@@ -41,9 +41,29 @@ class App extends Component {
       imageURL: '',
       box:[],
       route: 'signin',
-      isSignedIn: false
+      isSignedIn: false,
+      user: {
+        id: '',
+        name: '',
+        email: '',
+        entries: 0,
+        joined: new Date()
+      }
     }
   }
+
+  loadUser = (data) => {
+    this.setState({
+      data: {
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        entries: data.entries,
+        joined: data.joined
+      }
+    }
+  )
+  };
 
 
   calculateFaceLocation = (data) => {
@@ -116,7 +136,10 @@ class App extends Component {
         {route === 'home'
           ? <div>
             <Logo />
-            <Rank />
+            <Rank
+              name={this.state.user.name}
+              entries={this.state.user.entries}
+            />
             <ImageLinkForm
               onInputChange={this.onInputChange}
               onButtonSubmit={this.onButtonSubmit}
@@ -129,8 +152,14 @@ class App extends Component {
             // using js expression to pass another ternary operator
             // to conditionally render signin/register components
             route === 'signin'
-              ? <SignIn onRouteChange={this.onRouteChange}/>
-              : <Register onRouteChange={this.onRouteChange}/>
+              ? <SignIn
+                loadUser={this.loadUser}
+                onRouteChange={this.onRouteChange}
+              />
+              : <Register
+                loadUser={this.loadUser}
+                onRouteChange={this.onRouteChange}
+              />
 
             )
         }
