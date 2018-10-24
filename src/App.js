@@ -32,6 +32,16 @@ const particlesOptions = {
 
 };
 
+const initialState = {
+  user: {
+    id: '',
+    name: '',
+    email: '',
+    entries: 0,
+    joined: new Date()
+  }
+};
+
 // set initial state
 class App extends Component {
   constructor() {
@@ -41,14 +51,7 @@ class App extends Component {
       imageURL: '',
       box:[],
       route: 'signin',
-      isSignedIn: false,
-      user: {
-        id: '',
-        name: '',
-        email: '',
-        entries: 0,
-        joined: new Date()
-      }
+      isSignedIn: false
     }
   }
 
@@ -125,7 +128,7 @@ class App extends Component {
     // conditionally render routes based on
     // route state/sets route state
     if (route === 'signout') {
-      this.setState({isSignedIn: false})
+      this.setState({initialState})
     } else if (route === 'home') {
       this.setState({isSignedIn: true})
     }
