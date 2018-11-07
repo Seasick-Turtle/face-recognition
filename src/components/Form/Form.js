@@ -4,7 +4,7 @@ export const FormLegend = ({ formType }) => {
   return (
     <React.Fragment>
       <legend className="f1 fw6 ph0 mh0">
-        {formType === 'signin' ? 'Sign In' : 'Register'}
+        {formType === 'signIn' ? 'Sign In' : 'Register'}
       </legend>
     </React.Fragment>
     )
@@ -100,7 +100,7 @@ export const SignInSubmit = ({ onSubmitSignIn, onRouteChange }) => {
   )
 };
 
-export const Form = () => {
+export const Form = (props) => {
 
   return (
     <React.Fragment>
