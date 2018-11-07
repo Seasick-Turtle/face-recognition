@@ -32,6 +32,16 @@ const particlesOptions = {
 
 };
 
+const initialState = {
+  user: {
+    id: '',
+    name: '',
+    email: '',
+    entries: 0,
+    joined: new Date()
+  }
+};
+
 // set initial state
 class App extends Component {
   constructor() {
@@ -41,14 +51,7 @@ class App extends Component {
       imageURL: '',
       box:[],
       route: 'signin',
-      isSignedIn: false,
-      user: {
-        id: '',
-        name: '',
-        email: '',
-        entries: 0,
-        joined: new Date()
-      }
+      isSignedIn: false
     }
   }
 
@@ -115,6 +118,7 @@ class App extends Component {
             .then(count => {
               this.setState(Object.assign(this.state.user, { entries: count }))
             })
+            .catch(console.log)
         }
         this.displayFaceBox(this.calculateFaceLocation(response))
       })
@@ -125,7 +129,7 @@ class App extends Component {
     // conditionally render routes based on
     // route state/sets route state
     if (route === 'signout') {
-      this.setState({isSignedIn: false})
+      this.setState({initialState})
     } else if (route === 'home') {
       this.setState({isSignedIn: true})
     }
@@ -150,19 +154,19 @@ class App extends Component {
          */}
         {route === 'home'
           ? <div>
-            <Logo />
-            <Rank
-              name={this.state.user.name}
-              entries={this.state.user.entries}
-            />
-            <ImageLinkForm
-              onInputChange={this.onInputChange}
-              onButtonSubmit={this.onButtonSubmit}
-            />
-            <FaceRecognition
-              box={box}
-              imageURL={imageURL}/>}
-          </div>
+              <Logo />
+              <Rank
+                name={this.state.user.name}
+                entries={this.state.user.entries}
+              />
+              <ImageLinkForm
+                onInputChange={this.onInputChange}
+                onButtonSubmit={this.onButtonSubmit}
+              />
+              <FaceRecognition
+                box={box}
+                imageURL={imageURL}/>}
+            </div>
           : (
             // using js expression to pass another ternary operator
             // to conditionally render signin/register components
