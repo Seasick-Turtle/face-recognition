@@ -1,7 +1,7 @@
 import React from 'react';
 import './FaceRecognition.css';
 
-// destructure imageURL
+// destructure imageURL and box properties
 const FaceRecognition = ({ imageURL, box }) => {
   return (
     <div className='center ma'>

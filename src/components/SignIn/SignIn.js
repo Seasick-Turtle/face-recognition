@@ -77,7 +77,7 @@ export default class SignIn extends Component {
                   id="password" />
               </div>
             </fieldset>
-            <div className="">
+            <div>
               <input
                 onClick={this.onSubmitSignIn}
                 className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
