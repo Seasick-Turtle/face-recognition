@@ -103,7 +103,7 @@ class App extends Component {
     this.setState({imageURL: this.state.input});
 
     app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
-    // retrieves the bounding_box information in order to create
+    // retrieves the bounding_box data in order to create
     // square around the detected face
       .then((response) => {
         if (response) {
@@ -126,8 +126,9 @@ class App extends Component {
   };
 
   onRouteChange = (route) => {
-    // conditionally render routes based on
-    // route state/sets route state
+    /*
+
+     */
     if (route === 'signout') {
       this.setState({initialState})
     } else if (route === 'home') {
