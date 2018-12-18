@@ -7,16 +7,10 @@ import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import Logo from './components/Logo/Logo';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
-import Clarifai from 'clarifai';
 import './App.css';
 import 'tachyons';
 
-// Created const to hide API KEy
-const API_KEY = `${process.env.REACT_APP_CLARIFAI_API_KEY}`;
 
-const app = new Clarifai.App({
-  apiKey: `${API_KEY}`
-});
 
 // Customized particle options
 const particlesOptions = {
@@ -68,7 +62,6 @@ class App extends Component {
   )
   };
 
-
   calculateFaceLocation = (data) => {
     // retrieves bounding box data for four corner around face
     const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
@@ -102,8 +95,15 @@ class App extends Component {
     // used as props for FaceRecognition/ be displayed
     this.setState({imageURL: this.state.input});
 
-    app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
-    // retrieves the bounding_box data in order to create
+    fetch('http://localhost:3000/imageurl', {
+      method: 'post',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        input: this.state.input
+      })
+    })
+      .then(response => response.json())
+      // retrieves the bounding_box data in order to create
     // square around the detected face
       .then((response) => {
         if (response) {
