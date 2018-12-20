@@ -10,8 +10,6 @@ import Rank from './components/Rank/Rank';
 import './App.css';
 import 'tachyons';
 
-
-
 // Customized particle options
 const particlesOptions = {
   particles: {
@@ -80,7 +78,6 @@ class App extends Component {
     }
   };
 
-
   displayFaceBox = (box) => {
     this.setState({ box });
   };
@@ -104,7 +101,7 @@ class App extends Component {
     })
       .then(response => response.json())
       // retrieves the bounding_box data in order to create
-    // square around the detected face
+      // square around the detected face
       .then((response) => {
         if (response) {
           fetch('http://localhost:3000/image', {
@@ -127,7 +124,7 @@ class App extends Component {
 
   onRouteChange = (route) => {
     /*
-
+       changes application state depending on the route
      */
     if (route === 'signout') {
       this.setState({initialState})
@@ -178,10 +175,8 @@ class App extends Component {
               />
               : <Register
                 loadUser={this.loadUser}
-                onRouteChange={this.onRouteChange}
-              />
-
-            )
+                onRouteChange={this.onRouteChange}/>
+          )
         }
       </div>
     );
